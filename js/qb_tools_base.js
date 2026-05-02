@@ -1219,7 +1219,7 @@
         }
 
         // ensureMarketFavoriteSectionLabels(favoriteList);
-        
+
         const sourceContainer = getMarketCardsSourceContainer(favoriteList);
         if (!sourceContainer) return;
 
@@ -1246,7 +1246,7 @@
 
     /** bindMarketCategoryFavoriteRefresh: function */
     function bindMarketCategoryFavoriteRefresh() {
-        
+
         if (marketCategoryFavoriteRefreshBound) return;
         marketCategoryFavoriteRefreshBound = true;
 
@@ -1268,7 +1268,7 @@
             const target = event.target;
             if (!(target instanceof HTMLInputElement)) return;
             if (!target.classList.contains('market-input')) return;
-            
+
             refreshMarketFavorites();
         });
     }
@@ -1292,8 +1292,8 @@
         if (payload.type === 'player:state:updated') {
             const productionQueue = payload?.payload?.actionQueue?.production;
             const queue = Array.isArray(productionQueue) ? productionQueue : [];
-            const hasActive = queue.some((task) => String(task?.status || '').toLowerCase() === 'active');
-            if (!hasActive) {
+            const hasActive = queue.some((task) => (String(task?.status || '').toLowerCase() === 'active' || String(task?.status || '').toLowerCase() === 'pending'));
+            if (queue.length > 0 && !hasActive) {
                 triggerAutoCombatAfterProduction();
             }
             return;
